@@ -1,6 +1,8 @@
 import React from 'react';
 import doSearch from './api/search';
 
+import './styles/main.scss';
+
 const App = () => {
     return (
         <>
