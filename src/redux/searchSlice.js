@@ -10,6 +10,7 @@ export const searchSlice = createSlice({
         searchTerm: '',
         selectedTrack: '',
         isTrackView: false,
+        isError: false
     },
     reducers: {
         saveSearchResults: (state, action) => {
@@ -32,10 +33,21 @@ export const searchSlice = createSlice({
         },
         setIsLoading: (state, action) => {
             state.isLoading = action.payload;
+        },
+        setIsError: (state, action) => {
+            state.isError = action.payload;
         }
     },
 });
 
-export const { saveSearchResults, saveSearchTerm, setIsLoading, setHasLoaded, saveSelectedTrack, deleteSelectedTrack, setTrackView } = searchSlice.actions;
+export const { saveSearchResults,
+    saveSearchTerm,
+    setIsLoading,
+    setHasLoaded,
+    saveSelectedTrack,
+    deleteSelectedTrack,
+    setTrackView,
+    setIsError
+} = searchSlice.actions;
 
 export default searchSlice.reducer

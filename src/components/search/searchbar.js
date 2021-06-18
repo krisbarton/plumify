@@ -4,7 +4,15 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import SearchIcon from '../../assets/icons/search.svg';
 
-import { saveSearchResults, saveSearchTerm, setHasLoaded, setIsLoading, deleteSelectedTrack, setTrackView } from '../../redux/searchSlice';
+import {
+    saveSearchResults,
+    saveSearchTerm,
+    setHasLoaded,
+    setIsLoading,
+    deleteSelectedTrack,
+    setTrackView,
+    setIsError
+} from '../../redux/searchSlice';
 
 const SearchBar = () => {
 
@@ -23,6 +31,7 @@ const SearchBar = () => {
         dispatch(setIsLoading(true));
         dispatch(deleteSelectedTrack());
         dispatch(setTrackView(false));
+        dispatch(setHasLoaded(false));
 
         const song = searchRef.current.value;
         dispatch(saveSearchTerm(song));
@@ -35,7 +44,8 @@ const SearchBar = () => {
         }).then((response) => {
             console.log("search response...", response);
             //response.data.error ? setSearch({ error: true, errorMessage: 'There has been an error' }) : '';
-            dispatch(saveSearchResults(response.data));
+            response.data.error ? dispatch(setIsError(true)) :
+                dispatch(saveSearchResults(response.data));
             dispatch(setIsLoading(false));
             dispatch(setHasLoaded(true));
 
@@ -53,13 +63,13 @@ const SearchBar = () => {
                     <label htmlFor="searchbar">
                         <input ref={searchRef} type="search" name="searchbar" placeholder="Search by song name..." maxLength="200"
                             onKeyDown={(e) => { e.key === 'Enter' ? doSearch(e) : '' }} />
-                        <a href="" onClick={(e) => { doSearch(e);}}>
+                        <a href="" onClick={(e) => { doSearch(e); }}>
                             <img src={SearchIcon} alt="Search Plumify for a song!" />
                         </a>
                     </label>
                 </fieldset>
             </form>
-            
+
         </section>
     )
 
