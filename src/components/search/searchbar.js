@@ -43,11 +43,15 @@ const SearchBar = () => {
             }
         }).then((response) => {
             console.log("search response...", response);
-            //response.data.error ? setSearch({ error: true, errorMessage: 'There has been an error' }) : '';
-            response.data.error ? dispatch(setIsError(true)) :
+
+            if(response.data.error){
+                dispatch(setIsError(true)); 
+            } else {
                 dispatch(saveSearchResults(response.data));
-            dispatch(setIsLoading(false));
-            dispatch(setHasLoaded(true));
+                dispatch(setIsLoading(false));
+                dispatch(setHasLoaded(true)); 
+                dispatch(setIsError(false)); 
+        }
 
         }).catch((error) => {
             console.error(error);

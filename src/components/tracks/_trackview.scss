@@ -1,0 +1,70 @@
+.trackview {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    
+    &__label {
+        flex-basis: 100%;
+        font-size: .8rem;
+        letter-spacing: .5px;
+        margin-bottom: 1rem;
+        text-transform: uppercase;
+        text-align: center;
+    }
+
+    &__cover {
+        height: 200px;
+        width: 200px;
+    }
+
+    &__title {
+        flex-basis: 100%;
+        font-size: 1.2rem;
+        font-weight: normal;
+        margin: 1rem 0 0 0;
+        text-align: center;
+    }
+
+    &__artist {
+        flex-basis: 100%;
+        font-size: 1rem;
+        font-weight: normal;
+        margin: .5rem 0 0 0;
+        text-align: center;
+    }
+
+    &__options {
+        display: flex;
+        flex-basis: 100%;
+        justify-content: center;
+        margin: 2rem 0 1.5rem 0;
+
+        img {
+            height: 20px;
+            margin: 0 1.2rem;
+            width: 20px;
+        }
+    }
+
+    &__progress {
+        flex-basis: 100%;
+    }
+
+    &__controls {
+        display: flex;
+        justify-content: center;
+        margin: 2rem 1.2rem;
+    }
+
+    &__control {
+        height: 30px;
+        margin: 0 1rem;
+        padding: 1rem;
+        width: 30px;
+
+        &--highlight {
+            background-color: $primaryColor;
+            border-radius: 100%;
+        }
+    }
+}
