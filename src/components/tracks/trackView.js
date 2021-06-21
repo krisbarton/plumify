@@ -9,6 +9,7 @@ import Add from '../../assets/icons/add.svg';
 import Next from '../../assets/icons/next.svg';
 import Pause from '../../assets/icons/pause.svg';
 import Previous from '../../assets/icons/previous.svg';
+import Back from '../../assets/icons/back.svg';
 
 
 const STEP = 0.01;
@@ -25,6 +26,10 @@ const TrackView = ({ rtl }) => {
     });
 
     return (
+        <>
+        <a href="#" className="trackview__back">
+            <img src={Back} alt="Back Icon" />
+        </a>
         <section className="trackview">
             <div className="trackview__label">Now Playing</div>
             <img src={selectedTrack.album.cover_medium}
@@ -115,6 +120,7 @@ const TrackView = ({ rtl }) => {
                 <img src={Next} alt="Next icon from the audio player button" className="trackview__control" />
             </div>
         </section>
+        </>
     )
 
 }
