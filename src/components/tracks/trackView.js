@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { getTrackBackground, Range } from 'react-range';
+
+import { setTrackView } from '../../redux/searchSlice';
 
 import Volume from '../../assets/icons/volume.svg';
 import Shuffle from '../../assets/icons/shuffle.svg';
@@ -18,6 +20,7 @@ const MIN = 0;
 const TrackView = ({ rtl }) => {
 
     const selectedTrack = useSelector((state) => state.search.selectedTrack);
+    const dispatch = useDispatch();
     const [values, setValues] = useState([0]);
     const MAX = (selectedTrack.duration / 60).toFixed(2);
 
@@ -25,9 +28,14 @@ const TrackView = ({ rtl }) => {
         document.title = `Plumify - ${selectedTrack.title} by ${selectedTrack.artist.name}`;
     });
 
+    const backToList = (e) => {
+        e.preventDefault();
+        dispatch(setTrackView(false))
+    }
+
     return (
         <>
-        <a href="#" className="trackview__back">
+        <a href="#" className="trackview__back" onClick={(e) => { backToList(e) }}>
             <img src={Back} alt="Back Icon" />
         </a>
         <section className="trackview">
