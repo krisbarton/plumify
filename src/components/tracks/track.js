@@ -3,7 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { saveSelectedTrack, setTrackView } from '../../redux/searchSlice';
 
-const Track = ({data, id, artist}) => {
+import Music from '../../assets/icons/music.svg';
+
+const Track = ({ data, id, artist }) => {
 
     const dispatch = useDispatch();
 
@@ -13,9 +15,10 @@ const Track = ({data, id, artist}) => {
     }
 
     return (
-        <li onClick={(e) => {selectTrack()}} key={id}>
-            <strong>{data.title}</strong> <br />
-            by {data.artist.name}
+        <li onClick={(e) => { selectTrack() }} key={id}>
+            <img src={Music} className="tracklist__icon" alt="A Music note track icon" />
+            <p>{data.title}</p>
+            <p>by {data.artist.name}</p>
         </li>
     )
 

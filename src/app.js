@@ -18,13 +18,13 @@ const App = () => {
 
     return (
         <main>
-            <header><h1>Plumify</h1></header>
+            <header><h1>Plumi<span className="primaryHighlight">fy</span></h1></header>
             <SearchBar />
             {isLoading ? <Loading /> : ""}
             {hasLoaded && !isTrackView ? <TrackList /> : ""}
             {isTrackView ? <TrackView /> : ""}
             {isError ? <SearchError /> : ""}
-        </main>
+        </main >
     )
 }
 
