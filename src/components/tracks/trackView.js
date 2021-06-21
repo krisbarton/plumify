@@ -18,8 +18,7 @@ const TrackView = ({ rtl }) => {
 
     const selectedTrack = useSelector((state) => state.search.selectedTrack);
     const [values, setValues] = useState([0]);
-    const duration = (selectedTrack.duration / 60).toFixed(2);
-    const MAX = duration;
+    const MAX = (selectedTrack.duration / 60).toFixed(2);
 
     useEffect(() => {
         document.title = `Plumify - ${selectedTrack.title} by ${selectedTrack.artist.name}`;
@@ -40,8 +39,8 @@ const TrackView = ({ rtl }) => {
                 <img src={Add} alt="Add icon for audio player button" />
             </div>
             <div className="trackview__times">
-                <span className="trackview__times--current">{values[0].toFixed(2)}</span>
-                <span className="trackview__times--total">{duration}</span>
+                <span className="trackview__times--current">{values[0]}</span>
+                <span className="trackview__times--total">{MAX}</span>
             </div>
             <div
                 style={{
@@ -57,7 +56,9 @@ const TrackView = ({ rtl }) => {
                     min={MIN}
                     max={MAX}
                     rtl={rtl}
-                    onChange={(values) => setValues(values)}
+                    onChange={(values) => {
+                       values <= MAX ? setValues(values) : setValues(MAX);
+                    }}
                     renderTrack={({ props, children }) => (
                         <div
                             onMouseDown={props.onMouseDown}
