@@ -23,7 +23,7 @@ const App = () => {
             {isLoading ? <Loading /> : ""}
             {hasLoaded && !isTrackView ? <TrackList /> : ""}
             {isTrackView ? <TrackView /> : ""}
-            {isError ? <SearchError /> : ""}
+            {isError.flag ? <SearchError message={isError.message} /> : ""}
         </main >
     )
 }

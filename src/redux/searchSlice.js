@@ -10,7 +10,8 @@ export const searchSlice = createSlice({
         searchTerm: '',
         selectedTrack: '',
         isTrackView: false,
-        isError: false
+        isError: false,
+        errorMessage: ''
     },
     reducers: {
         saveSearchResults: (state, action) => {

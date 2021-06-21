@@ -45,12 +45,13 @@ const SearchBar = () => {
             console.log("search response...", response);
 
             if(response.data.error){
-                dispatch(setIsError(true)); 
+                dispatch(setIsError({flag: true, message: response.data.error.message}));
+                dispatch(setIsLoading(false));
             } else {
                 dispatch(saveSearchResults(response.data));
                 dispatch(setIsLoading(false));
                 dispatch(setHasLoaded(true)); 
-                dispatch(setIsError(false)); 
+                dispatch(setIsError({flag: false, message: ''})); 
         }
 
         }).catch((error) => {
