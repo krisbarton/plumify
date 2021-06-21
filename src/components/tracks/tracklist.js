@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -9,6 +9,10 @@ const TrackList = () => {
     const searchResults = useSelector((state) => state.search.searchResults);
     const searchTerm = useSelector((state) => state.search.searchTerm);
     const { data, total } = searchResults;
+
+    useEffect(() => {
+        document.title = `Plumify - ${total} songs found for '${searchTerm}'`;
+    });
 
     return (
         <section className="tracklist">

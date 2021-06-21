@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { getTrackBackground, Range } from 'react-range';
 
@@ -20,6 +20,10 @@ const TrackView = ({ rtl }) => {
     const [values, setValues] = useState([0]);
     const duration = (selectedTrack.duration / 60).toFixed(2);
     const MAX = duration;
+
+    useEffect(() => {
+        document.title = `Plumify - ${selectedTrack.title} by ${selectedTrack.artist.name}`;
+    });
 
     return (
         <section className="trackview">

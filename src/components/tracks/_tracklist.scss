@@ -12,11 +12,13 @@
     &__searchTerm {
         font-size: 1.4rem;
         margin: .5rem;
+        text-align: center;
     }
 
     &__songsFound {
         font-size: 1rem;
         margin: 0;
+        text-align: center;
     }
 
     ul {
@@ -37,8 +39,26 @@
                 flex-basis: 100%;
                 margin: 0;
             }
+
+            p.tracklist__button__holder {
+                margin: 3rem 0 1rem 0;
+            }
         }
 
+    }
+
+    &__divider {
+        border-bottom: 1px solid darken($primaryColor, 30%);
+        flex-basis: 40%;
+        margin: 2rem 0 1rem 0;
+    }
+
+    &__button {
+        background-color: $secondaryColor;
+        border-radius: .3rem;
+        color: $foregroundColor;
+        padding: .5rem .8rem;
+        text-decoration: none;
     }
 
 }
