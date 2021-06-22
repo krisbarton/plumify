@@ -12,20 +12,37 @@ import Next from '../../assets/icons/next.svg';
 import Pause from '../../assets/icons/pause.svg';
 import Previous from '../../assets/icons/previous.svg';
 import Back from '../../assets/icons/back.svg';
-
-
-const STEP = 0.01;
-const MIN = 0;
+import Play from '../../assets/icons/play.svg';
 
 const TrackView = ({ rtl }) => {
 
+    const trackRange = document.getElementById("track-range");
     const selectedTrack = useSelector((state) => state.search.selectedTrack);
     const dispatch = useDispatch();
-    const [values, setValues] = useState([0]);
-    const MAX = (selectedTrack.duration / 60).toFixed(2);
+    const [values, setValues] = useState([0.00]);
+    const [playing, setPlaying] = useState(false);
+    const [audio] = useState(new Audio(selectedTrack.preview));
+    const [audioDetails, setAudioDetails] = useState({
+        min: 0,
+        step: 0.01,
+        max: 100,
+        currentTime: 0
+    });
+
+    let currentTime = 0;
 
     useEffect(() => {
         document.title = `Plumify - ${selectedTrack.title} by ${selectedTrack.artist.name}`;
+    });
+
+    audio.addEventListener('loadedmetadata', (e) => {
+        setAudioDetails({ max: (e.target.duration / 60).toFixed(2) });
+    });
+
+    audio.addEventListener('timeupdate', () => {
+        setAudioDetails({ currentTime: (audio.currentTime / 60).toFixed(2) });
+        const trackRange = document.getElementById("track-range");
+        trackRange.value = (audio.currentTime / 60).toFixed(2);
     });
 
     const backToList = (e) => {
@@ -33,101 +50,49 @@ const TrackView = ({ rtl }) => {
         dispatch(setTrackView(false))
     }
 
+    const toggleAudio = (e) => {
+
+        if (!playing) {
+            audio.play();
+            setPlaying(true);
+        } else {
+            audio.pause();
+            setPlaying(false);
+        }
+    }
+
     return (
         <>
-        <a href="#" className="trackview__back" onClick={(e) => { backToList(e) }}>
-            <img src={Back} alt="Back Icon" />
-        </a>
-        <section className="trackview">
-            <div className="trackview__label">Now Playing</div>
-            <img src={selectedTrack.album.cover_medium}
-                className="trackview__cover"
-                alt={`${selectedTrack.album.title} by ${selectedTrack.artist.name} album cover`} />
-            <h2 className="trackview__title">{selectedTrack.title}</h2>
-            <h3 className="trackview__artist">{selectedTrack.artist.name}</h3>
-            <div className="trackview__options">
-                <img src={Volume} alt="Volume icon for audio player button" />
-                <img src={Repeat} alt="Repeat icon for the audio player button" />
-                <img src={Shuffle} alt="Shuffle icon for audio player button" />
-                <img src={Add} alt="Add icon for audio player button" />
-            </div>
-            <div className="trackview__times">
-                <span className="trackview__times--current">{values[0]}</span>
-                <span className="trackview__times--total">{MAX}</span>
-            </div>
-            <div
-                style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    flexWrap: 'wrap',
-                    width: '80%'
-                }}
-            >
-                <Range
-                    values={values}
-                    step={STEP}
-                    min={MIN}
-                    max={MAX}
-                    rtl={rtl}
-                    onChange={(values) => {
-                       values <= MAX ? setValues(values) : setValues(MAX);
-                    }}
-                    renderTrack={({ props, children }) => (
-                        <div
-                            onMouseDown={props.onMouseDown}
-                            onTouchStart={props.onTouchStart}
-                            style={{
-                                ...props.style,
-                                height: '36px',
-                                display: 'flex',
-                                width: '100%'
-                            }}
-                        >
-                            <div
-                                ref={props.ref}
-                                style={{
-                                    height: '5px',
-                                    width: '100%',
-                                    borderRadius: '4px',
-                                    background: getTrackBackground({
-                                        values,
-                                        colors: ['#3B32BC', '#CBCBCB'],
-                                        min: MIN,
-                                        max: MAX,
-                                        rtl
-                                    }),
-                                    alignSelf: 'center'
-                                }}
-                            >
-                                {children}
-                            </div>
-                        </div>
-                    )}
-                    renderThumb={({ props, isDragged }) => (
-                        <div
-                            {...props}
-                            style={{
-                                ...props.style,
-                                height: '20px',
-                                width: '20px',
-                                borderRadius: '100%',
-                                backgroundColor: '#3B32BC',
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                            }}
-                        >
-
-                        </div>
-                    )}
-                />
-            </div>
-            <div className="trackview__controls">
-                <img src={Previous} alt="Previus icon for the audio player button" className="trackview__control" />
-                <img src={Pause} alt="Pause icon from the audio player button" className="trackview__control trackview__control--highlight" />
-                <img src={Next} alt="Next icon from the audio player button" className="trackview__control" />
-            </div>
-        </section>
+            <audio src={selectedTrack.preview} preload="metadata" loop id="track-audio"></audio>
+            <a href="#" className="trackview__back" onClick={(e) => { backToList(e) }}>
+                <img src={Back} alt="Back Icon" />
+            </a>
+            <section className="trackview">
+                <div className="trackview__label">Now Playing</div>
+                <img src={selectedTrack.album.cover_medium}
+                    className="trackview__cover"
+                    alt={`${selectedTrack.album.title} by ${selectedTrack.artist.name} album cover`} />
+                <h2 className="trackview__title">{selectedTrack.title}</h2>
+                <h3 className="trackview__artist">{selectedTrack.artist.name}</h3>
+                <div className="trackview__options">
+                    <img src={Volume} alt="Volume icon for audio player button" />
+                    <img src={Repeat} alt="Repeat icon for the audio player button" />
+                    <img src={Shuffle} alt="Shuffle icon for audio player button" />
+                    <img src={Add} alt="Add icon for audio player button" />
+                </div>
+                <div className="trackview__times">
+                    <span className="trackview__times--current">{values[0]}</span>
+                    <span className="trackview__times--total">{audioDetails.max}</span>
+                </div>
+                <input type="range" id="track-range" max="100" />
+                <div className="trackview__controls">
+                    <img src={Previous} alt="Previus icon for the audio player button" className="trackview__control" />
+                    <div className="trackview__control--highlight">
+                        <img onClick={(e) => { toggleAudio(e) }} src={playing ? Pause : Play} alt="Play or Pause icon from the audio player button depending on state" className="trackview__control" />
+                    </div>
+                    <img src={Next} alt="Next icon from the audio player button" className="trackview__control" />
+                </div>
+            </section>
         </>
     )
 
