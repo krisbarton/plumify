@@ -32,6 +32,7 @@ const SearchBar = () => {
         dispatch(deleteSelectedTrack());
         dispatch(setTrackView(false));
         dispatch(setHasLoaded(false));
+        dispatch(setIsError({flag: false, message: ""}));
 
         const song = searchRef.current.value;
         dispatch(saveSearchTerm(song));

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getTrackBackground, Range } from 'react-range';
 
 import { setTrackView } from '../../redux/searchSlice';
 
@@ -14,35 +13,15 @@ import Previous from '../../assets/icons/previous.svg';
 import Back from '../../assets/icons/back.svg';
 import Play from '../../assets/icons/play.svg';
 
-const TrackView = ({ rtl }) => {
+const TrackView = () => {
 
-    const trackRange = document.getElementById("track-range");
+    const [playing, setPlaying] = useState(false);
+
     const selectedTrack = useSelector((state) => state.search.selectedTrack);
     const dispatch = useDispatch();
-    const [playing, setPlaying] = useState(false);
-    const [audio] = useState(new Audio(selectedTrack.preview));
-    const [audioDetails, setAudioDetails] = useState({
-        min: 0,
-        step: 0.01,
-        max: 100,
-        currentTime: 0.00
-    });
-
-    let currentTime = 0;
 
     useEffect(() => {
         document.title = `Plumify - ${selectedTrack.title} by ${selectedTrack.artist.name}`;
-    });
-
-    audio.addEventListener('loadedmetadata', (e) => {
-        setAudioDetails({ ...audioDetails, max: (e.target.duration / 60).toFixed(2) });
-    });
-
-    audio.addEventListener('timeupdate', () => {
-        setAudioDetails({ ...audioDetails, currentTime: (audio.currentTime / 60).toFixed(2) });
-        const trackRange = document.getElementById("track-range");
-        // trackRange.value = (audio.currentTime / 60).toFixed(2);
-        trackRange.value = audio.currentTime;
     });
 
     const backToList = (e) => {
@@ -50,20 +29,20 @@ const TrackView = ({ rtl }) => {
         dispatch(setTrackView(false))
     }
 
-    const toggleAudio = (e) => {
-
-        if (!playing) {
-            audio.play();
+    const setAudio = () => {
+        const audio = document.getElementById("player");
+        if(!playing) {
             setPlaying(true);
+            audio.play();
         } else {
-            audio.pause();
             setPlaying(false);
+            audio.pause();
         }
     }
 
     return (
         <>
-            <audio src={selectedTrack.preview} preload="metadata" loop id="track-audio"></audio>
+            <audio src={selectedTrack.preview} preload="metadata" id="player"></audio>
             <a href="#" className="trackview__back" onClick={(e) => { backToList(e) }}>
                 <img src={Back} alt="Back Icon" />
             </a>
@@ -81,15 +60,14 @@ const TrackView = ({ rtl }) => {
                     <img src={Add} alt="Add icon for audio player button" />
                 </div>
                 <div className="trackview__times">
-                    <span className="trackview__times--current">{audioDetails.currentTime}</span>
-                    <span className="trackview__times--total"
-                    >{audioDetails.max}</span>
+                    <span className="trackview__times--current"></span>
+                    <span className="trackview__times--total"></span>
                 </div>
-                <input type="range" id="track-range" min="0" max="100" value="0.00" />
+                <input type="range" id="track-range" min="0" max="100" step="0.01" value="0.00" />
                 <div className="trackview__controls">
                     <img src={Previous} alt="Previus icon for the audio player button" className="trackview__control" />
                     <div className="trackview__control--highlight">
-                        <img onClick={(e) => { toggleAudio(e) }} src={playing ? Pause : Play} alt="Play or Pause icon from the audio player button depending on state" className="trackview__control" />
+                        <img onClick={(e) => {setAudio()}} src={playing ? Pause : Play} alt="Play or Pause icon from the audio player button depending on state" className="trackview__control" />
                     </div>
                     <img src={Next} alt="Next icon from the audio player button" className="trackview__control" />
                 </div>

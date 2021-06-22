@@ -5,6 +5,7 @@ import SearchBar from './components/search/searchbar';
 import Loading from './components/loading/loading';
 import TrackList from './components/tracks/tracklist';
 import TrackView from './components/tracks/trackView';
+import TrackTest from './components/tracks/trackTest';
 import SearchError from './components/error/error';
 
 import './styles/main.scss';
