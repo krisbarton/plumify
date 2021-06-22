@@ -19,14 +19,13 @@ const TrackView = ({ rtl }) => {
     const trackRange = document.getElementById("track-range");
     const selectedTrack = useSelector((state) => state.search.selectedTrack);
     const dispatch = useDispatch();
-    const [values, setValues] = useState([0.00]);
     const [playing, setPlaying] = useState(false);
     const [audio] = useState(new Audio(selectedTrack.preview));
     const [audioDetails, setAudioDetails] = useState({
         min: 0,
         step: 0.01,
         max: 100,
-        currentTime: 0
+        currentTime: 0.00
     });
 
     let currentTime = 0;
@@ -36,13 +35,14 @@ const TrackView = ({ rtl }) => {
     });
 
     audio.addEventListener('loadedmetadata', (e) => {
-        setAudioDetails({ max: (e.target.duration / 60).toFixed(2) });
+        setAudioDetails({ ...audioDetails, max: (e.target.duration / 60).toFixed(2) });
     });
 
     audio.addEventListener('timeupdate', () => {
-        setAudioDetails({ currentTime: (audio.currentTime / 60).toFixed(2) });
+        setAudioDetails({ ...audioDetails, currentTime: (audio.currentTime / 60).toFixed(2) });
         const trackRange = document.getElementById("track-range");
-        trackRange.value = (audio.currentTime / 60).toFixed(2);
+        // trackRange.value = (audio.currentTime / 60).toFixed(2);
+        trackRange.value = audio.currentTime;
     });
 
     const backToList = (e) => {
@@ -81,10 +81,11 @@ const TrackView = ({ rtl }) => {
                     <img src={Add} alt="Add icon for audio player button" />
                 </div>
                 <div className="trackview__times">
-                    <span className="trackview__times--current">{values[0]}</span>
-                    <span className="trackview__times--total">{audioDetails.max}</span>
+                    <span className="trackview__times--current">{audioDetails.currentTime}</span>
+                    <span className="trackview__times--total"
+                    >{audioDetails.max}</span>
                 </div>
-                <input type="range" id="track-range" max="100" />
+                <input type="range" id="track-range" min="0" max="100" value="0.00" />
                 <div className="trackview__controls">
                     <img src={Previous} alt="Previus icon for the audio player button" className="trackview__control" />
                     <div className="trackview__control--highlight">
