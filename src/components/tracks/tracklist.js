@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
+import {CSSTransition} from 'react-transition-group';
 
 import Track from './track';
 

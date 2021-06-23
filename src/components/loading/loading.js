@@ -1,9 +1,11 @@
 import React from 'react';
 
+import Spinner from '../../assets/icons/spinner.svg';
+
 const Loading = () => {
 
     return (
-        <h2>Loading...</h2>
+        <img src={Spinner} className="loading" alt="loading..." />
     )
 
 }
