@@ -1,3 +1,26 @@
+$slider-width-number: 240;
+$slider-width: #{$slider-width-number}px;
+$slider-height: 3px;
+$background-slider: $tertiaryColor;
+$background-filled-slider: $primaryColor;
+$thumb-width: 20px;
+$thumb-height: 20px;
+$thumb-radius: 50%;
+$thumb-background: $primaryColor;
+$thumb-border: 1px solid darken($primaryColor, 20%);
+$shadow-size: -8px;
+$fit-thumb-in-slider: -8px;
+    
+@function makelongshadow($color, $size) {
+    $val: 5px 0 0 $size $color;
+    
+    @for $i from 6 through $slider-width-number {
+    $val: #{$val}, #{$i}px 0 0 $size #{$color};
+    }
+    
+    @return $val;
+}
+    
 .trackview {
     display: flex;
     flex-wrap: wrap;
@@ -65,7 +88,7 @@
     &__controls {
         display: flex;
         justify-content: center;
-        margin: 2rem 1.2rem;
+        margin: 1rem 1.2rem 2rem 1.2rem;
     }
 
     &__control {
@@ -90,5 +113,96 @@
         flex-basis: 80%;
         justify-content: space-between;
         margin-bottom: .3rem;
+    }
+
+    input {
+      align-items: center;
+      appearance: none;
+      background: none;
+      cursor: pointer;
+      display: flex;
+      min-height: 50px;
+      overflow: hidden;
+      width: $slider-width;
+    
+      &:focus {
+        box-shadow: none;
+        outline: none;
+      }
+      
+      &::-webkit-slider-runnable-track {
+        background: $background-filled-slider;
+        content: '';
+        height: $slider-height;
+        pointer-events: none;
+      }
+      
+      &::-webkit-slider-thumb {
+        width:$thumb-width;
+        height: $thumb-height;        
+        appearance: none;
+        background: $thumb-background;
+        border-radius: $thumb-radius;
+        box-shadow: makelongshadow($background-slider, $shadow-size);
+        margin-top: $fit-thumb-in-slider;
+        border: $thumb-border;
+      }
+      
+      
+      &::-moz-range-track {
+          background-color: $tertiaryColor;
+        width: $slider-width;
+        height: $slider-height;
+      }
+    
+      &::-moz-range-thumb {
+        width:$thumb-width;
+        height: $thumb-height;    
+        background: $thumb-background;
+        border-radius: $thumb-radius;
+        border: $thumb-border;
+        position: relative;
+      }
+    
+      &::-moz-range-progress {
+        height: $slider-height;
+        background: $background-filled-slider;
+        border: 0;
+        margin-top: 0;
+      }
+    
+      &::-ms-track {
+        background: transparent;
+        border: 0;
+        border-color: transparent;
+        border-radius: 0;
+        border-width: 0;
+        color: transparent;
+        height: $slider-height;
+        margin-top: 10px;
+        width: $slider-width;
+      }
+      
+      &::-ms-thumb {
+        width:$thumb-width;
+        height: $thumb-height;
+        background: $thumb-background;
+        border-radius: $thumb-radius;
+        border: $thumb-border;
+      }
+    
+      &::-ms-fill-lower {
+        background: $background-filled-slider;
+        border-radius: 0;
+      }
+    
+      &::-ms-fill-upper {
+        background: $background-slider;
+        border-radius: 0;
+      }
+    
+      &::-ms-tooltip {
+        display: none;
+      }
     }
 }
