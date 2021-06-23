@@ -18,7 +18,7 @@ const TrackView = () => {
     const audioElement = useRef();
 
     const [playing, setPlaying] = useState(false);
-    const [audioDetails, setAudioDetails] = useState({ duration: 0.00, currentTime: (0).toFixed(2) })
+    const [audioDetails, setAudioDetails] = useState({ duration: 0.00, currentTime: 0, displayTime: (0).toFixed(2) })
 
     const selectedTrack = useSelector((state) => state.search.selectedTrack);
     const dispatch = useDispatch();
@@ -49,21 +49,20 @@ const TrackView = () => {
     }
 
     const setSongTime = (e) => {
-        console.log("set song time called. Current time: ", (e.target.currentTime / 60).toFixed(2));
-        setAudioDetails({ ...audioDetails, currentTime: (e.target.currentTime / 60).toFixed(2) });
+        console.log("set song time ", audioElement.current.currentTime);
+        setAudioDetails({ ...audioDetails, currentTime: audioElement.current.currentTime, displayTime: (audioElement.current.currentTime).toFixed(2) });
         setRangeValue(e);
     }
 
     const setRangeValue = (e) => {
         const slider = document.getElementById("track-range");
-        slider.value = audioDetails.currentTime;
+        slider.value = audioDetails.displayTime;
     }
 
     const seekForward = (e) => {
         console.log("seeking forward");
-        console.log("current audio time ", audioDetails.currentTime);
-        let currentTime = parseInt(audioDetails.currentTime) + 0.10;
-        currentTime = (currentTime).toFixed(2);
+        console.log("current audio time ", audioElement.current.currentTime);
+        let currentTime = parseInt(audioElement.current.currentTime) + 10;
         console.log("add 10 seconds to the time... ", currentTime);
         audioElement.current.currentTime = currentTime;
         console.log("audio element current time ", audioElement.current.currentTime);
@@ -96,10 +95,10 @@ const TrackView = () => {
                     <img src={Add} alt="Add icon for audio player button" />
                 </div>
                 <div className="trackview__times">
-                    <span className="trackview__times--current">{audioDetails.currentTime}</span>
+                    <span className="trackview__times--current">{audioDetails.DisplayTime}</span>
                     <span className="trackview__times--total">{audioDetails.duration}</span>
                 </div>
-                <input type="range" id="track-range" min="0" max={audioDetails.duration} step="0.01" value={audioDetails.currentTime} />
+                <input type="range" id="track-range" min="0" max={audioDetails.duration} step="0.01" value={audioDetails.displayTime} />
                 <div className="trackview__controls">
                     <img src={Previous} alt="Previus icon for the audio player button" className="trackview__control" />
                     <div className="trackview__control--highlight">
