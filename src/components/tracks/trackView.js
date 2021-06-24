@@ -92,7 +92,7 @@ const TrackView = () => {
                 <img src={Back} alt="Back Icon" />
             </a>
             <section className="trackview fadeIn">
-                <section className="slideIn layout">
+                <section className="trackview__container slideIn layout">
                     <span className="trackview__label">Now Playing</span>
                     <img src={selectedTrack.album.cover_medium}
                         className="trackview__cover"

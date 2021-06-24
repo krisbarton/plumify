@@ -25,8 +25,11 @@ $fit-thumb-in-slider: -8px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    position: relative;
     width: 100%;
+
+    &__container {
+      width: 100%;
+    }
 
     &__back {
         padding: 1rem;
@@ -90,6 +93,7 @@ $fit-thumb-in-slider: -8px;
     &__controls {
         display: flex;
         flex-basis: 100%;
+        flex-wrap: nowrap;
         justify-content: center;
         margin: 1rem 1.2rem 2rem 1.2rem;
     }
