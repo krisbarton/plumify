@@ -2,6 +2,8 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    position: relative;
+    width: 100%;
 
     &__icon {
         height: auto;
@@ -41,10 +43,18 @@
             }
 
             p.tracklist__button__holder {
-                margin: 3rem 0 1rem 0;
+                margin: 2rem 0 1rem 0;
+            }
+
+            p.tracklist__title {
+                margin-bottom: .3rem;
             }
         }
 
+    }
+
+    &__title {
+        font-size: 1.4rem;
     }
 
     &__divider {
@@ -54,11 +64,7 @@
     }
 
     &__button {
-        background-color: $secondaryColor;
-        border-radius: .3rem;
-        color: $foregroundColor;
-        padding: .5rem .8rem;
-        text-decoration: none;
+       @include button;
     }
 
 }

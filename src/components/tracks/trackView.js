@@ -25,9 +25,10 @@ const TrackView = () => {
     const rangeElement = useRef();
 
     const [playing, setPlaying] = useState(false);
-    const [audioDetails, setAudioDetails] = useState({  
-        duration: 0, 
-        currentTime: parseFloat(timeConversion(0.00)).toFixed(2)})
+    const [audioDetails, setAudioDetails] = useState({
+        duration: 0,
+        currentTime: parseFloat(timeConversion(0.00)).toFixed(2)
+    })
 
     const selectedTrack = useSelector((state) => state.search.selectedTrack);
     const dispatch = useDispatch();
@@ -58,14 +59,15 @@ const TrackView = () => {
     }
 
     const setSongTime = () => {
-        setAudioDetails({ 
-            ...audioDetails, 
-            currentTime: parseFloat(timeConversion(audioElement.current.currentTime)).toFixed(2)  });
+        setAudioDetails({
+            ...audioDetails,
+            currentTime: parseFloat(timeConversion(audioElement.current.currentTime)).toFixed(2)
+        });
         setRangeValue();
     }
 
     const setRangeValue = () => {
-       rangeElement.current.value = audioDetails.currentTime;
+        rangeElement.current.value = audioDetails.currentTime;
     }
 
     const seekForward = () => {
@@ -89,31 +91,37 @@ const TrackView = () => {
             <a href="#" className="trackview__back" onClick={(e) => { backToList(e) }}>
                 <img src={Back} alt="Back Icon" />
             </a>
-            <section className="trackview">
-                <div className="trackview__label">Now Playing</div>
-                <img src={selectedTrack.album.cover_medium}
-                    className="trackview__cover"
-                    alt={`${selectedTrack.album.title} by ${selectedTrack.artist.name} album cover`} />
-                <h2 className="trackview__title">{selectedTrack.title}</h2>
-                <h3 className="trackview__artist">{selectedTrack.artist.name}</h3>
-                <div className="trackview__options">
-                    <img src={Volume} alt="Volume icon for audio player button" />
-                    <img src={Repeat} alt="Repeat icon for the audio player button" />
-                    <img src={Shuffle} alt="Shuffle icon for audio player button" />
-                    <img src={Add} alt="Add icon for audio player button" />
-                </div>
-                <div className="trackview__times">
-                    <span className="trackview__times--current">{audioDetails.currentTime}</span>
-                    <span className="trackview__times--total">{audioDetails.duration}</span>
-                </div>
-                <input ref={rangeElement} type="range" id="track-range" min="0" max={audioDetails.duration} step="0.01" value={audioDetails.currentTime} />
-                <div className="trackview__controls">
-                    <img onClick={() => { seekBackward() }} src={Previous} alt="Previus icon for the audio player button" className="trackview__control" />
-                    <div className="trackview__control--highlight">
-                        <img onClick={() => { setAudio() }} src={playing ? Pause : Play} alt="Play or Pause icon from the audio player button depending on state" className="trackview__control" />
-                    </div>
-                    <img onClick={() => { seekForward() }} src={Next} alt="Next icon from the audio player button" className="trackview__control" />
-                </div>
+            <section className="trackview fadeIn">
+                <section className="slideIn layout">
+                    <span className="trackview__label">Now Playing</span>
+                    <img src={selectedTrack.album.cover_medium}
+                        className="trackview__cover"
+                        alt={`${selectedTrack.album.title} by ${selectedTrack.artist.name} album cover`} />
+                    <header>
+                        <h2 className="trackview__title">{selectedTrack.title}</h2>
+                        <h3 className="trackview__artist">{selectedTrack.artist.name}</h3>
+                    </header>
+                    <section className="trackview__options">
+                        <img src={Volume} alt="Volume icon for audio player button" />
+                        <img src={Repeat} alt="Repeat icon for the audio player button" />
+                        <img src={Shuffle} alt="Shuffle icon for audio player button" />
+                        <img src={Add} alt="Add icon for audio player button" />
+                    </section>
+                    <section className="trackview__range layout">
+                        <section className="trackview__times">
+                            <span className="trackview__times--current">{audioDetails.currentTime}</span>
+                            <span className="trackview__times--total">{audioDetails.duration}</span>
+                        </section>
+                        <input ref={rangeElement} type="range" id="track-range" min="0" max={audioDetails.duration} step="0.01" value={audioDetails.currentTime} />
+                    </section>
+                    <section className="trackview__controls layout">
+                        <img onClick={() => { seekBackward() }} src={Previous} alt="Previus icon for the audio player button" className="trackview__control" />
+                        <span className="trackview__control--highlight">
+                            <img onClick={() => { setAudio() }} src={playing ? Pause : Play} alt="Play or Pause icon from the audio player button depending on state" className="trackview__control" />
+                        </span>
+                        <img onClick={() => { seekForward() }} src={Next} alt="Next icon from the audio player button" className="trackview__control" />
+                    </section>
+                </section>
             </section>
         </>
     )

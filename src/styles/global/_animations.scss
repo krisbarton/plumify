@@ -1,0 +1,59 @@
+.loading {
+    animation: spin .8s linear infinite;
+    -webkit-animation: spin .8s linear infinite;
+    -moz-animation: spin .8s linear infinite;
+    height: 50px;
+    width: 50px;
+}
+
+@-moz-keyframes spin {
+    from { -moz-transform: rotate(0deg); }
+    to { -moz-transform: rotate(360deg); }
+}
+@-webkit-keyframes spin {
+    from { -webkit-transform: rotate(0deg); }
+    to { -webkit-transform: rotate(360deg); }
+}
+@keyframes spin {
+    from {transform:rotate(0deg);}
+    to {transform:rotate(360deg);}
+}
+
+.slideIn {
+    -webkit-animation: slide 0.5s forwards;
+    -moz-animation: slide .5s forwards;
+    animation: slide 0.5s forwards;
+    position: absolute;
+    left: -500px;
+}
+
+@-moz-keyframes slide {
+    100% { left: 0; }
+}
+
+@-webkit-keyframes slide {
+    100% { left: 0; }
+}
+
+@keyframes slide {
+    100% { left: 0; }
+}
+
+.fadeIn {
+    -webkit-animation: fadeIn 2.5s forwards;
+    -moz-animation: fadeIn 2.5s forwards;
+    animation: fadeIn 2.5s forwards;
+    opacity: 0;
+}
+
+@-moz-keyframes fadeIn {
+    100% { opacity: 1; }
+}
+
+@-webkit-keyframes fadeIn {
+    100% { opacity: 1; }
+}
+
+@keyframes fadeIn {
+    100% { opacity: 1; }
+}
